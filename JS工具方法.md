@@ -36,4 +36,4 @@ console.log(hasProperty(example, 'testGet', 'set'));
 console.log(hasProperty(example, 'test'));
 
 ```
---
+-----
