@@ -1,4 +1,4 @@
-##工具方法
+# 工具方法
 ### 判断对象（包括 原型对象）判断是否包含一个属性，支持Getter/Setter
 ```javascript
 function hasProperty(obj, prop, gs) {
