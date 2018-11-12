@@ -2,7 +2,7 @@
 ----
 ##工具库
 
-[Lodash: https://www.lodashjs.com/](https://www.lodashjs.com/)
+[Lodash 是一个一致性、模块化、高性能的 JavaScript 实用工具库: https://www.lodashjs.com/](https://www.lodashjs.com/)
 
 
 ### 判断对象（包括 原型对象）判断是否包含一个属性，支持Getter/Setter
