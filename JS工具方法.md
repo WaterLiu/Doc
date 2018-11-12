@@ -46,6 +46,7 @@ console.log(hasProperty(example, 'test'));
 
 ### mobx merge，功能和lodash中的merge相同。 可以将source中新增的key-value键值对加入到object的observable属性中
  
+ ```javascript
 export function mobxMerge(object, source) {
     mergeWith(object, source, (objValue, srcValue, key, object, source) => {
         if (typeof objValue === 'undefined') {
@@ -58,9 +59,11 @@ export function mobxMerge(object, source) {
 
     });
 }
+ ```
 
 ### mobx merge，功能和lodash中的mergeWith相同。 可以将source中新增的key-value键值对加入到object的observable属性中
  
+ ```javascript
 export function mobxMergeWith(object, source, customizer) {
     mergeWith(object, source, (objValue, srcValue, key, object, source, stack) => {
         if (typeof objValue === 'undefined') {
@@ -73,3 +76,4 @@ export function mobxMergeWith(object, source, customizer) {
 
     });
 }
+ ```
