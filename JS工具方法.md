@@ -77,3 +77,30 @@ export function mobxMergeWith(object, source, customizer) {
     });
 }
  ```
+
+### lodash set 方法 （目前不支持嵌套数组）
+ ```javascript
+export function set(obj, path, value) {
+    const p = path.split('.');
+    const length = p.length;
+
+    if (length < 1) throw new TypeError('advHas error');
+
+    let newObj = {};
+    for (let i = length - 1; i >= 0; i--) {
+        const keyObject = p[i];
+        if (i === length - 1) {
+            newObj[keyObject] = value;
+        }
+        else {
+            if (i === 0) {
+                obj[keyObject] = newObj;
+            } else {
+                let temp = {};
+                temp[keyObject] = newObj;
+                newObj = temp;
+            }
+        }
+    }
+}
+ ```
