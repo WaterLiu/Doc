@@ -78,29 +78,30 @@ export function mobxMergeWith(object, source, customizer) {
 }
  ```
 
-### lodash set 方法 （目前不支持嵌套数组）
+### mobx set remoeve path 方法 （目前不支持嵌套数组）
  ```javascript
-export function set(obj, path, value) {
-    const p = path.split('.');
-    const length = p.length;
-
-    if (length < 1) throw new TypeError('advHas error');
-
-    let newObj = {};
-    for (let i = length - 1; i >= 0; i--) {
-        const keyObject = p[i];
-        if (i === length - 1) {
-            newObj[keyObject] = value;
-        }
-        else {
-            if (i === 0) {
-                obj[keyObject] = newObj;
-            } else {
-                let temp = {};
-                temp[keyObject] = newObj;
-                newObj = temp;
+    import * as mobx from 'mobx';
+    set(obj, path, value) {
+        const keys = path.split('.');
+        for (let i = 0; i < keys.length - 1 ; i++) {
+            const key = keys[i];
+            if (obj[key] === undefined) {
+                mobx.set(obj, key, {});
             }
+            obj = obj[key];
         }
+        mobx.set(obj, keys[keys.length - 1], value);
     }
-}
+
+    remove(obj, path) {
+        const keys = path.split('.');
+        for (let i = 0; i < keys.length - 1 ; i++) {
+            const key = keys[i];
+            if (obj[key] === undefined) {
+               return;
+            }
+            obj = obj[key];
+        }
+        mobx.remove(obj, keys[keys.length - 1]);
+    }
  ```
