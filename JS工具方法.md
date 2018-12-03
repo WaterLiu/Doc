@@ -160,7 +160,7 @@ export function mobxMergeWith(object, source, customizer) {
                 if (_.has(source, ruleKey)) {
                     const srcObj = _.get(source, ruleKey);
                     if ( Array.isArray(srcObj) || mobx.isObservableArray(srcObj)) {
-                        customizer(obj, source, rule[ruleKey], ruleKey, _.get(source, ruleKey));
+                        customizerMergeArray(obj, source, rule[ruleKey], ruleKey, _.get(source, ruleKey));
                     } else {
                         set(obj, rule[ruleKey], _.get(source, ruleKey));
                     }
