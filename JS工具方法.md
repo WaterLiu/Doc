@@ -105,3 +105,35 @@ export function mobxMergeWith(object, source, customizer) {
         mobx.remove(obj, keys[keys.length - 1]);
     }
  ```
+ 
+ ### merge 按照 rule 规则merge 支持自定方法回调  不支持数组
+  ```javascript
+     mergeWith(obj, source, rule, type) {
+
+        let set, remove;
+        if (mode === 'mobx') {
+            set = mobx.set;
+            remove = mobx.remove;
+        } else {
+            set = _.set;
+            remove = _.remove;
+        }
+
+        const ruleKeys = _.keys(rule);
+        for (let i = 0; i < ruleKeys.length; i++) {
+            const ruleKey = ruleKeys[i];
+            //如果是方法就回调出去.
+            if (_.isFunction(rule[ruleKey])) {
+                rule[ruleKey](obj, source, ruleKey, _.get(source, ruleKey));
+            } else { // 不是方法，正常合并
+                if (_.has(source, ruleKey)) {
+                    set(obj, rule[ruleKey], _.get(source, ruleKey));
+                } else {
+                    if (_.has(obj, rule[ruleKey])) {
+                        remove(obj, rule[ruleKey]);
+                    }
+                }
+            }
+        }
+    }
+ ```
