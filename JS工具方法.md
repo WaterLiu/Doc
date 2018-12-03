@@ -136,4 +136,40 @@ export function mobxMergeWith(object, source, customizer) {
             }
         }
     }
+    
+    
+     //customizerMergeArray 参数 obj, source, objPath, srcPath, value
+    mergeWith(obj, source, rule, customizerMergeArray) {
+
+        let set, remove;
+        if (mobx.isObservable(obj)) {
+            set = mobx.set;
+            remove = mobx.remove;
+        } else {
+            set = _.set;
+            remove = _.remove;
+        }
+
+        const ruleKeys = _.keys(rule);
+        for (let i = 0; i < ruleKeys.length; i++) {
+            const ruleKey = ruleKeys[i];
+            //如果是方法就回调出去.
+            if (_.isFunction(rule[ruleKey])) {
+                rule[ruleKey](obj, source, ruleKey, _.get(source, ruleKey));
+            } else { // 不是方法，正常合并
+                if (_.has(source, ruleKey)) {
+                    const srcObj = _.get(source, ruleKey);
+                    if ( Array.isArray(srcObj) || mobx.isObservableArray(srcObj)) {
+                        customizer(obj, source, rule[ruleKey], ruleKey, _.get(source, ruleKey));
+                    } else {
+                        set(obj, rule[ruleKey], _.get(source, ruleKey));
+                    }
+                } else {
+                    if (_.has(obj, rule[ruleKey])) {
+                        remove(obj, rule[ruleKey]);
+                    }
+                }
+            }
+        }
+    }
  ```
