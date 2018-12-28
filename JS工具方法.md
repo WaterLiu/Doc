@@ -173,3 +173,40 @@ export function mobxMergeWith(object, source, customizer) {
         }
     }
  ```
+ 
+  ### 获取对象上的 所有 paths
+  ```javascript
+   function paths(obj, parentKey) {
+    const result = [];
+    if (_.isArray(obj) || isObservableArray(obj)) {
+        let index = 0;
+        _.forEach(obj, (item) => {
+            if (_.isObject(item)) {
+                const pathList = paths(item, '[' + index++ + ']');
+                _.forEach(pathList, (path) => {
+                    const curPath = (parentKey ? parentKey : '') + path;
+                    result.push(curPath);
+                });
+            }
+        });
+
+        if (result.length == 0) {
+            result.push(parentKey);
+        }
+    }
+    else if (_.isObject(obj)) {
+        _.forEach(_.keys(obj), (key) => {
+            const pathList = paths(obj[key], key);
+            _.forEach(pathList, (path) => {
+                const curPath = (parentKey ? parentKey + '.' : '') + path;
+                result.push(curPath);
+            });
+        });
+    }
+    else {
+        result.push(parentKey);
+    }
+    return result;
+}
+
+ ```
